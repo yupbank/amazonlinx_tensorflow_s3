@@ -29,7 +29,7 @@ ENV PYTHON_BIN_PATH /usr/bin/python3
 ENV PYTHON_LIB_PATH /usr/lib/python3.6/dist-packages
 
 RUN tensorflow/tools/ci_build/builds/configured CPU \
-	bazel build -c opt --cxxopt="-D_GLIBCXX_USE_CXX11_ABI=0"  --jobs 1 --local_resources 6000,4.0,1.0 --define with_s3_support=true tensorflow/tools/pip_package:build_pip_package && \
+	bazel build -c opt --copt=-mavx --copt=-mavx2 --copt=-mfma --copt=-mfpmath=both --copt=-msse4.1 --copt=-msse4.2 --cxxopt="-D_GLIBCXX_USE_CXX11_ABI=0"  --jobs 1 --local_resources 6000,4.0,1.0 --define with_s3_support=true tensorflow/tools/pip_package:build_pip_package && \
 	bazel-bin/tensorflow/tools/pip_package/build_pip_package /target/pip && \
 	rm -rf /root/.cache && \
 	rm -rf /tensorflow
